@@ -112,6 +112,7 @@ GitHub Actions are included:
 
 - `ci.yml`: install, Prisma generate, Biome, typecheck, tests, build and Docker build.
 - `release.yml`: on `v*` tags, run the quality gate and publish `.zip`, `.tar.gz` and `SHA256SUMS.txt`.
+- `dependabot-auto-merge.yml`: approves safe Dependabot updates and lets branch protection merge them after CI passes.
 
 ```bash
 git tag v0.1.0

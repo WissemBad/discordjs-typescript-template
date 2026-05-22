@@ -1,0 +1,81 @@
+name: Dependabot Auto-Merge
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  dependabot:
+    name: Review safe Dependabot updates
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Label update
+        run: gh pr edit "$PR_URL" --add-label "dependencies,dependabot"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+
+      - name: Decide auto-merge eligibility
+        id: decision
+        shell: bash
+        run: |
+          update_type="${{ steps.metadata.outputs.update-type }}"
+          dependency_type="${{ steps.metadata.outputs.dependency-type }}"
+
+          case "$update_type" in
+            version-update:semver-patch|security-update:semver-patch)
+              echo "safe=true" >> "$GITHUB_OUTPUT"
+              ;;
+            version-update:semver-minor|security-update:semver-minor)
+              if [[ "$dependency_type" == "direct:production" ]]; then
+                echo "safe=false" >> "$GITHUB_OUTPUT"
+                echo "reason=minor production dependency update requires manual review" >> "$GITHUB_OUTPUT"
+              else
+                echo "safe=true" >> "$GITHUB_OUTPUT"
+              fi
+              ;;
+            *)
+              echo "safe=false" >> "$GITHUB_OUTPUT"
+              echo "reason=$update_type requires manual review" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
+      - name: Mark manual review updates
+        if: steps.decision.outputs.safe != 'true'
+        run: |
+          gh pr edit "$PR_URL" --add-label "manual-review"
+          echo "${{ steps.decision.outputs.reason }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+
+      - name: Approve safe update
+        if: steps.decision.outputs.safe == 'true'
+        run: gh pr review --approve "$PR_URL"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+
+      - name: Enable auto-merge
+        if: steps.decision.outputs.safe == 'true'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}

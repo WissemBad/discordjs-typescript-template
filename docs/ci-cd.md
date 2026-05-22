@@ -30,3 +30,16 @@ The release workflow re-runs the quality gate, builds the Docker image, creates 
 ## Deployment
 
 This template does not deploy to a server by default. Production hosting differs too much between projects, and a fake deploy step would be worse than no deploy step. Add a separate environment-specific workflow once the target is known.
+
+## Dependabot
+
+`.github/dependabot.yml` keeps Bun dependencies, GitHub Actions, Docker and Docker Compose references fresh.
+
+The auto-merge workflow is intentionally conservative:
+
+- patch updates are approved and marked for auto-merge;
+- minor updates are auto-merged only when they are not direct production dependencies;
+- major updates and production minor updates are labeled `manual-review`;
+- branch protection should require the CI checks before merging.
+
+Enable **Allow auto-merge** in the repository settings for the workflow to merge after required checks pass.
