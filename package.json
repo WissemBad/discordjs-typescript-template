@@ -2,7 +2,7 @@
   "name": "discordjs-typescript-template",
   "description": "Feature-first Discord.js v14 bot template using Bun, TypeScript, Prisma, Express and Biome.",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "license": "MIT",
   "packageManager": "bun@1.3.14",
   "type": "module",
