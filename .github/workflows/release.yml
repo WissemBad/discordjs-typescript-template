@@ -1,0 +1,71 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+env:
+  BUN_VERSION: "1.3.11"
+  DATABASE_URL: "file:./release.db"
+  PACKAGE_NAME: "discord-js-bun-bot-template"
+
+jobs:
+  release:
+    name: Build release assets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve release tag
+        id: release
+        shell: bash
+        run: echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: bun run db:generate
+
+      - name: Verify
+        run: |
+          bun run check
+          bun run typecheck
+          bun test
+          bun run build
+
+      - name: Build Docker image
+        run: docker build --build-arg BUN_IMAGE=oven/bun:${BUN_VERSION}-debian -t bot-template:${{ steps.release.outputs.tag }} .
+
+      - name: Create source archives
+        shell: bash
+        run: |
+          mkdir -p release
+          PREFIX="${PACKAGE_NAME}-${{ steps.release.outputs.tag }}/"
+          git archive --format=zip --prefix="$PREFIX" --output="release/${PACKAGE_NAME}-${{ steps.release.outputs.tag }}.zip" HEAD
+          git archive --format=tar.gz --prefix="$PREFIX" --output="release/${PACKAGE_NAME}-${{ steps.release.outputs.tag }}.tar.gz" HEAD
+          (cd release && sha256sum * > SHA256SUMS.txt)
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.release.outputs.tag }}
+          name: ${{ steps.release.outputs.tag }}
+          generate_release_notes: true
+          files: |
+            release/*.zip
+            release/*.tar.gz
+            release/SHA256SUMS.txt

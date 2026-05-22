@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "baseUrl": ".",
+    "composite": false,
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "ignoreDeprecations": "6.0",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "@bot/config": ["packages/config/src/index.ts"],
+      "@bot/core": ["packages/core/src/index.ts"],
+      "@bot/database": ["packages/database/src/index.ts"],
+      "@bot/logger": ["packages/logger/src/index.ts"]
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2023",
+    "types": ["bun"]
+  },
+  "include": ["apps/**/*.ts", "packages/**/*.ts", "prisma.config.ts"],
+  "exclude": ["dist", "node_modules", "packages/database/src/generated/prisma"]
+}

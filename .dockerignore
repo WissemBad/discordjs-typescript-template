@@ -1,0 +1,10 @@
+.env
+.git
+.idea
+dist
+node_modules
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+packages/database/src/generated/prisma

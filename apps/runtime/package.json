@@ -1,0 +1,17 @@
+{
+  "name": "@bot/runtime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/main.ts"
+  },
+  "main": "./src/main.ts",
+  "types": "./src/main.ts",
+  "dependencies": {
+    "@bot/config": "workspace:*",
+    "@bot/core": "workspace:*",
+    "@bot/database": "workspace:*",
+    "@bot/logger": "workspace:*"
+  }
+}
