@@ -9,9 +9,8 @@ permissions:
   contents: write
 
 env:
-  BUN_VERSION: "1.3.11"
   DATABASE_URL: "file:./release.db"
-  PACKAGE_NAME: "discord-js-bun-bot-template"
+  PACKAGE_NAME: "discordjs-typescript-template"
 
 jobs:
   release:
@@ -46,7 +45,7 @@ jobs:
           bun run build
 
       - name: Build Docker image
-        run: docker build --build-arg BUN_IMAGE=oven/bun:${BUN_VERSION}-debian -t bot-template:${{ steps.release.outputs.tag }} .
+        run: docker build --build-arg BUN_IMAGE=oven/bun:debian -t bot-template:${{ steps.release.outputs.tag }} .
 
       - name: Create source archives
         shell: bash
