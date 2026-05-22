@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG BUN_IMAGE=oven/bun:1.3.11-debian
+ARG BUN_IMAGE=oven/bun:debian
 
 FROM ${BUN_IMAGE} AS base
 WORKDIR /app
