@@ -20,15 +20,15 @@ updates:
       bun-security:
         applies-to: security-updates
         patterns:
-          - '*'
+          - "*"
       bun-minor-patch:
         patterns:
-          - '*'
+          - "*"
         update-types:
           - minor
           - patch
     ignore:
-      - dependency-name: '*'
+      - dependency-name: "*"
         update-types:
           - version-update:semver-major
   - package-ecosystem: github-actions
@@ -51,15 +51,15 @@ updates:
       github-actions-security:
         applies-to: security-updates
         patterns:
-          - '*'
+          - "*"
       github-actions-minor-patch:
         patterns:
-          - '*'
+          - "*"
         update-types:
           - minor
           - patch
     ignore:
-      - dependency-name: '*'
+      - dependency-name: "*"
         update-types:
           - version-update:semver-major
   - package-ecosystem: docker
@@ -82,15 +82,15 @@ updates:
       docker-security:
         applies-to: security-updates
         patterns:
-          - '*'
+          - "*"
       docker-minor-patch:
         patterns:
-          - '*'
+          - "*"
         update-types:
           - minor
           - patch
     ignore:
-      - dependency-name: '*'
+      - dependency-name: "*"
         update-types:
           - version-update:semver-major
   - package-ecosystem: docker-compose
@@ -113,14 +113,14 @@ updates:
       docker-compose-security:
         applies-to: security-updates
         patterns:
-          - '*'
+          - "*"
       docker-compose-minor-patch:
         patterns:
-          - '*'
+          - "*"
         update-types:
           - minor
           - patch
     ignore:
-      - dependency-name: '*'
+      - dependency-name: "*"
         update-types:
           - version-update:semver-major
