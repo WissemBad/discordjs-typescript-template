@@ -58,19 +58,19 @@ Features live in `apps/runtime/src/features/<feature-name>` and depend only on s
 
 ## Scripts
 
-| Command | Purpose |
-| --- | --- |
-| `bun run dev` | Start the runtime in watch mode |
-| `bun run start` | Start the runtime with Bun |
-| `bun run build` | Generate Prisma and bundle the runtime as a packaging check |
-| `bun run check` | Run Biome lint, format check and import sorting check |
-| `bun run check:write` | Apply Biome fixes |
-| `bun run typecheck` | Run strict TypeScript checks |
-| `bun test` | Run unit tests |
-| `bun run db:migrate` | Run Prisma migrations |
-| `bun run commands:deploy` | Deploy global slash commands |
-| `bun run commands:deploy:guild` | Deploy development guild slash commands |
-| `bun run commands:reset` | Reset registered slash commands |
+| Command                         | Purpose                                                     |
+| ------------------------------- | ----------------------------------------------------------- |
+| `bun run dev`                   | Start the runtime in watch mode                             |
+| `bun run start`                 | Start the runtime with Bun                                  |
+| `bun run build`                 | Generate Prisma and bundle the runtime as a packaging check |
+| `bun run check`                 | Run Biome lint, format check and import sorting check       |
+| `bun run check:write`           | Apply Biome fixes                                           |
+| `bun run typecheck`             | Run strict TypeScript checks                                |
+| `bun test`                      | Run unit tests                                              |
+| `bun run db:migrate`            | Run Prisma migrations                                       |
+| `bun run commands:deploy`       | Deploy global slash commands                                |
+| `bun run commands:deploy:guild` | Deploy development guild slash commands                     |
+| `bun run commands:reset`        | Reset registered slash commands                             |
 
 ## Included Examples
 
